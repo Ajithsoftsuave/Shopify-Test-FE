@@ -7,7 +7,7 @@ const shippingForm = () => {
   return (
     <div className="mt-4 mb-10">
       <AddressForm fieldPrefix="Shipping" />
-      <div>
+      <div className="phone-input">
         <PhoneNumberControl
           selectProps={{
             id: "phone_code",
@@ -17,7 +17,7 @@ const shippingForm = () => {
             id: "PhoneNumber",
             placeholder: "Phone",
           }}
-          phoneNumberName="CustomerData.phone"
+          phoneNumberName="Shipping.phone"
           phoneCodeName="phone_code"
           max-length="10"
           rules={{

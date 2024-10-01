@@ -12,9 +12,9 @@ const baseService = Axios.create({
 });
 
 class PaymentService {
-  readonly merchantId = "sbx_mid_2meR56qX4sz1klCIXjCuzyMSs7r";
+  readonly merchantId = "sbx_mid_2meR56qX4sz1klCIXjCuzyMSs7r"; // should be removed in actual commit
   readonly token =
-    "sbx_apikey_98a4c25ac820c691c305ce7af58b3fc4383af377d36a4f7fc8c8cd170a4108b8";
+    "sbx_apikey_98a4c25ac820c691c305ce7af58b3fc4383af377d36a4f7fc8c8cd170a4108b8"; // should be removed in actual commit
 
   getConfig = async (
     body: IGetPayingConfigBody

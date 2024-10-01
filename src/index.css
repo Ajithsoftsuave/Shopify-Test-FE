@@ -14,3 +14,28 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.left-container .inner-section {
+  padding: 10px 20px;
+  box-shadow: 4px 3px 14px -8px #000;
+  border-radius: 10px;
+}
+
+.left-container .inner-section input {
+  padding: 0 15px;
+}
+
+.left-container .inner-section p,
+.left-container .inner-section h2 {
+  color: #1a2762;
+}
+
+.phone-input input {
+  padding: 0 0 0 100px !important;
+}
+
+.right-container > div {
+  box-shadow: 4px 3px 14px -8px #000;
+  border-radius: 10px;
+  overflow: hidden;
+}

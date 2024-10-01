@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import contactInfoForm from "./forms/contactInfoForm/contactInfoForm";
 import shippingForm from "./forms/shippingForm/shippingForm";
@@ -76,9 +76,17 @@ const Checkout = () => {
 
   const { isValid } = methods.formState;
 
+  const [showPayment, setShowPayment] = useState(false);
+
   const onSubmit = (data: IFormContext) => {
     console.log("data", data);
   };
+
+  useEffect(() => {
+    if (showPayment) {
+      setShowPayment(isValid);
+    }
+  }, [isValid]);
 
   return (
     <div id="font-family">
@@ -95,7 +103,7 @@ const Checkout = () => {
           <div className="relative mx-auto grid sm:max-w-8xl lg:max-w-6xl xl:max-w-6xl grid-cols-1 gap-x-8 lg:grid-cols-12 lg:px-8 xl:gap-x-8">
             <section
               aria-labelledby="summary-heading"
-              className="lg:col-start-9 lg:col-span-10 lg:row-start-1 lg:bg-transparent lg:px-0 lg:pb-16"
+              className="right-container lg:col-start-9 lg:col-span-10 lg:row-start-1 lg:bg-transparent lg:px-0 lg:pb-16 mt-7"
             >
               <div className="mx-auto max-w-2xl lg:max-w-none">
                 <div
@@ -109,17 +117,29 @@ const Checkout = () => {
               </div>
             </section>
 
-            <div className="lg:col-span-8">
+            <div className="left-container lg:col-span-8">
               <div className="px-4 pt-6 pb-14 lg:pt-8 sm:pt-6 sm:px-6 lg:col-start-1 lg:row-start-1 lg:px-0 lg:pb-16">
-                <div className="mx-auto max-w-2xl lg:max-w-none">
+                <div className="inner-section mx-auto max-w-2xl lg:max-w-none">
                   <FormProvider {...methods}>
                     <form onSubmit={methods?.handleSubmit(onSubmit)}>
                       <div className="mx-auto max-w-2xl lg:max-w-none">
                         {steps?.map((step, index) => {
-                          if (step.heading === "PAYMENT METHOD") {
-                            if (!isValid) {
-                              return null;
-                            }
+                          if (
+                            step.heading === "PAYMENT METHOD" &&
+                            !showPayment
+                          ) {
+                            return (
+                              <div className="flex align-center justify-center">
+                                <button
+                                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                                  onClick={() => {
+                                    setShowPayment(isValid);
+                                  }}
+                                >
+                                  Proceed To Payment
+                                </button>
+                              </div>
+                            );
                           }
                           return (
                             <div key={index}>

@@ -52,7 +52,9 @@ const PaymentSession = () => {
       currency_code: "USD",
       merchant_id: PaymentService.merchantId,
       idempotency_key: Math.random().toString(36).substring(7),
-      amount: Math.round(Number(cartData?.cost?.subtotalAmount?.amount)),
+      amount: Number(
+        (Number(cartData?.cost?.subtotalAmount?.amount) * 100).toFixed(2)
+      ),
     };
     const response = await PaymentService.getConfig(payload);
 
@@ -104,11 +106,7 @@ const PaymentSession = () => {
     };
   }, []);
 
-  console.log("cartData", cartData);
-  console.log("watch", watch());
-
   const handlePayment = async (orderData: any) => {
-    console.log("orderData", orderData);
     if (!cartID || !shopID) return;
 
     const data = watch();
@@ -122,14 +120,15 @@ const PaymentSession = () => {
       billing_same_as_shipping: data.billing_same_as_shipping ? true : false,
       customerDetails: data.CustomerData,
       paymentDetail: {
-        kind: "rainforest",
-        status: orderData?.data?.status as string,
+        kind: "SALE",
+        status: orderData?.status as string,
         amount: orderData?.data?.amount as string,
       },
     };
 
     const res = await paymentService1.placeOrder(payload);
-    if (res.status === "SUCCESS") {
+
+    if (res?.data) {
       toast.success("Order placed successfully");
     } else {
       toast.error("Order placement failed");
@@ -139,14 +138,13 @@ const PaymentSession = () => {
   useEffect(() => {
     var component = document.querySelector("rainforest-payment");
     component?.addEventListener("approved", function (data: any) {
-      console.log("Payment approved", data);
       if (data?.detail[0]?.status === "SUCCESS") {
-        console.log("Payment successful");
+        toast.success("Paymnet successful");
         handlePayment(data?.detail[0]);
 
         // Payment success
       } else {
-        console.error("Payment failed");
+        toast.error("Payment failed");
         // Payment failed
       }
     });
