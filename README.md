@@ -4,7 +4,7 @@
 
 NodeJS, ReactJS
 
-#Setup Process:
+# Setup Process:
 
 1. Clone repo
 2. npm install - to install dependencies
