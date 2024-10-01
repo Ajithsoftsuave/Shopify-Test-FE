@@ -101,7 +101,6 @@ const Checkout = () => {
                   className={`overflow-hidden transition-all ease-in-out px-6 py-6 `}
                 >
                   <Cart />
-                  {/* <PromoCode /> */}
                   <OrderDetails />
                 </div>
               </div>
