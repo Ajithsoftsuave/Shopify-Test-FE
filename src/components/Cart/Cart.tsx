@@ -1,54 +1,10 @@
 import { useSearchParams } from "react-router-dom";
-import { LineItem } from "../../interface/interface";
 import cartServics from "../../service/cartServics";
 import { CartItem } from "./cartItems";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setCartData } from "../../redux/slice/cartSlice";
 import { useAppSelector } from "../../redux/reduxHooks";
-
-// const cartData = {
-//   LineItems: [
-//     {
-//       ID: "1",
-//       Name: "Product 1",
-//       Subtitle: "Product 1 subtitle",
-//       ProductID: "1",
-//       VariantID: "1",
-//       Quantity: 1,
-//       OriginalPrice: "100",
-//       UnitPrice: "100",
-//       SalePrice: "90",
-//       TotalPrice: "90",
-//       OnSale: true,
-//       Properties: {
-//         property1: "value1",
-//         property2: "value2",
-//       },
-//       ImageURL: "",
-//       IsUpsell: false,
-//     },
-//     {
-//       ID: "2",
-//       Name: "Product 2",
-//       Subtitle: "Product 2 subtitle",
-//       ProductID: "2",
-//       VariantID: "2",
-//       Quantity: 1,
-//       OriginalPrice: "200",
-//       UnitPrice: "200",
-//       SalePrice: "190",
-//       TotalPrice: "190",
-//       OnSale: true,
-//       Properties: {
-//         property1: "value1",
-//         property2: "value2",
-//       },
-//       ImageURL: "",
-//       IsUpsell: false,
-//     },
-//   ],
-// };
 
 const Cart = () => {
   const [searchParams] = useSearchParams();

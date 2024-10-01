@@ -62,19 +62,6 @@ const AddressForm: React.FC<AddressFormProps> = ({ fieldPrefix }) => {
           )}
         />
       </div>
-      {/* <TextFieldControl
-        className="sm:col-span-2"
-        name={`${fieldPrefix}.Address2`}
-        placeholder="Apartment, suite, etc. (optional)"
-        aria-label="Apartment, suite, etc. (optional)"
-      /> */}
-      {/* <TextFieldControl
-        className="sm:col-span-2"
-        id={`${fieldPrefix}.Organization`}
-        name={`${fieldPrefix}.Organization`}
-        placeholder="Company (optional)"
-        aria-label="Company (optional)"
-      /> */}
       <TextFieldControl
         id={`${fieldPrefix}.city`}
         name={`${fieldPrefix}.city`}

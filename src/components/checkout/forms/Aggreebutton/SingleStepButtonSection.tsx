@@ -57,11 +57,6 @@ export const SingleStepButtonSection: React.FC<
           * Please add items to the cart.
         </div>
       )}
-      {/* {!isEmpty(formState?.errors) && (
-        <div className="text-red-500 text-xs sm:text-right mt-1">
-          * Please fix the errors mentioned above.
-        </div>
-      )} */}
     </>
   );
 };

@@ -1,12 +1,10 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import contactInfoForm from "./forms/contactInfoForm/contactInfoForm";
 import shippingForm from "./forms/shippingForm/shippingForm";
 import { BillingForm } from "./forms/billingForm/BillingForm";
 import Cart from "../Cart/Cart";
-import PromoCode from "../promo-code/PromoCode";
 import OrderDetails from "../orderDetails/OrderDetails";
-import { SingleStepButtonSection } from "./forms/Aggreebutton/SingleStepButtonSection";
 import { IFormContext } from "../../interface/interface";
 import PaymentSession from "../payment";
 
@@ -53,19 +51,11 @@ const steps = [
     heading: "BILLING ADDRESS",
     component: BillingForm,
   },
-  // {
-  //   name: "STEP 4",
-  //   heading: "SHIPPING METHOD",
-  // },
   {
     name: "STEP 3",
     heading: "PAYMENT METHOD",
     component: PaymentSession,
   },
-
-  // {
-  //   component: SingleStepButtonSection,
-  // },
 ];
 
 const Checkout = () => {

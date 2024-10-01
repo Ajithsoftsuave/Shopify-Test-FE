@@ -1,7 +1,5 @@
 import React from "react";
 import img from "../../asserts/images/tet1.webp";
-import { LineItem } from "../../interface/interface";
-import { PlusIcon, MinusIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { formatPrice } from "../../utils/commonFunction";
 import { CartLine } from "../../interface/cartInterface";
 
@@ -10,18 +8,6 @@ interface CartItemProps {
 }
 
 export const CartItem: React.FC<CartItemProps> = ({ product }) => {
-  // const handleDecrease = async () => {
-  //   //    need to implement this function
-  // };
-
-  // const handleIncrease = async () => {
-  //   //    need to implement this function
-  // };
-
-  // const handleRemove = async () => {
-  //   //    need to implement this function
-  // };
-
   return (
     <li
       key={product.merchandise?.id}
@@ -44,24 +30,6 @@ export const CartItem: React.FC<CartItemProps> = ({ product }) => {
         <p className="text-gray-500 font-normal">
           {product.merchandise?.product?.title}
         </p>
-        {/* <span className="isolate inline-flex rounded-md shadow-sm mt-4">
-          <button
-            type="button"
-            onClick={handleDecrease}
-            className="relative inline-flex items-center rounded-l-md bg-white px-1 py-1 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
-          >
-            <span className="sr-only">Previous</span>
-            <MinusIcon className="h-6 w-10 lg:h-4 lg:w-6" aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            onClick={handleIncrease}
-            className="relative -ml-px inline-flex items-center rounded-r-md bg-white px-1 py-1 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
-          >
-            <span className="sr-only">Next</span>
-            <PlusIcon className="h-6 w-10 lg:h-4 lg:w-6" aria-hidden="true" />
-          </button>
-        </span> */}
       </div>
 
       <div>
@@ -99,14 +67,6 @@ export const CartItem: React.FC<CartItemProps> = ({ product }) => {
           </p>
         )}
       </div>
-      {/* <button
-        type="button"
-        onClick={handleRemove}
-        className="hide-remove-button text-gray-400 hover:text-gray-500"
-      >
-        <span className="sr-only">Remove</span>
-        <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-      </button> */}
     </li>
   );
 };
