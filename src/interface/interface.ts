@@ -330,3 +330,26 @@ export interface IPaymentBody extends IGetCartBody {
   customerDetails: IContact;
   paymentDetail: IPaymentDetils;
 }
+
+
+export interface IShippingAddressUpdate {
+  address1: string;
+  city: string;
+  province: string;
+  country: string;
+  zip: string;
+}
+export interface IShippingAddress {
+  cartId: string;
+  shippingAddress: IShippingAddressUpdate;
+  email: string;
+  lineItems?: {
+    variantId: string;
+    quantity: number;
+  }[];
+}
+
+export interface IShippingAddressPayload {
+  deliveryAddress:IShippingAddress,
+  shopId :string
+}

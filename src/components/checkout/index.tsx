@@ -1,12 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useDeferredValue, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import contactInfoForm from "./forms/contactInfoForm/contactInfoForm";
 import shippingForm from "./forms/shippingForm/shippingForm";
 import { BillingForm } from "./forms/billingForm/BillingForm";
 import Cart from "../Cart/Cart";
 import OrderDetails from "../orderDetails/OrderDetails";
-import { IFormContext } from "../../interface/interface";
+import { IFormContext, IShippingAddress, IShippingAddressUpdate } from "../../interface/interface";
 import PaymentSession from "../payment";
+import Discount from "../Discount/Discount";
+import { useSearchParams } from "react-router-dom";
+import CartService from '../../service/cartServics';
+import { toast } from "react-toastify";
+import { setCartData } from "../../redux/slice/cartSlice";
+import { useDispatch } from "react-redux";
+import cartServics from "../../service/cartServics";
+import { useAppSelector } from "../../redux/reduxHooks";
 
 const defaultValues: IFormContext = {
   CustomerData: {
@@ -64,19 +72,83 @@ const Checkout = () => {
     mode: "onChange",
   });
 
-  const { isValid } = methods.formState;
+  const [searchParams] = useSearchParams();
 
+  const cartID = searchParams.get("cart") ?? '';
+  const shopID = searchParams.get("store") ?? '';
+
+  const address1 = useDeferredValue(methods.watch("Shipping.address1"));
+  const city = methods.watch("Shipping.city");
+  const country = methods.watch("Shipping.country");
+  const province = methods.watch("Shipping.province");
+  const zip = methods.watch("Shipping.zip");
+  const email = methods.watch("CustomerData.email");
+
+  const dispatch = useDispatch();
+  const { cartData } = useAppSelector((state) => state.cart);
+  const { isValid } = methods.formState;
   const [showPayment, setShowPayment] = useState(false);
+
 
   const onSubmit = (data: IFormContext) => {
     console.log("data", data);
   };
+
+  const getCartItems = async (cartID: string, shopID: string) => {
+    const response = await cartServics.getCartItems({ cartID, shopID });
+    if (response?.data) {
+      dispatch(setCartData(response.data));
+    } else dispatch(setCartData(null));
+  };
+
+  const updateShipping = async (deliveryAddress: IShippingAddress) => {
+    try {
+      const lineItems = cartData?.lines?.edges?.map((item: any) => {
+        return {
+          "variantId": item?.node?.merchandise?.id,
+          "quantity": item?.node?.quantity
+        }
+      })
+
+      const res = await CartService.updateShipping({
+        deliveryAddress: {
+          lineItems: lineItems,
+          ...deliveryAddress
+        },
+        shopId: shopID
+      });
+      if (res.data) {
+        toast.success("Order placed successfully");
+        await getCartItems(cartID, shopID);
+      }
+    } catch (err) {
+      toast.error("Provide a valid Shipping address");
+    }
+
+  }
 
   useEffect(() => {
     if (showPayment) {
       setShowPayment(isValid);
     }
   }, [isValid]);
+
+  useEffect(() => {
+    if (methods.formState.dirtyFields?.Shipping && Object.keys(methods.formState.dirtyFields?.Shipping).length >= 5) {
+      const prepareShippingData: IShippingAddress = {
+        cartId: cartID,
+        "shippingAddress": {
+          address1,
+          city,
+          province,
+          country,
+          zip
+        },
+        "email": email
+      }
+      updateShipping(prepareShippingData)
+    }
+  }, [address1, city, country, province, zip])
 
   return (
     <div id="font-family">
@@ -101,6 +173,7 @@ const Checkout = () => {
                   className={`overflow-hidden transition-all ease-in-out px-6 py-6 `}
                 >
                   <Cart />
+                  <Discount />
                   <OrderDetails />
                 </div>
               </div>
@@ -164,3 +237,5 @@ const Checkout = () => {
   );
 };
 export default Checkout;
+
+
