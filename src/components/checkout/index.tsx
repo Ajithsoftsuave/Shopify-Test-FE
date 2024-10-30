@@ -82,6 +82,8 @@ const Checkout = () => {
   const country = methods.watch("Shipping.country");
   const province = methods.watch("Shipping.province");
   const zip = methods.watch("Shipping.zip");
+  const firstName = methods.watch("Shipping.first_name");
+  const lastName = methods.watch("Shipping.last_name");
   const email = methods.watch("CustomerData.email");
 
   const dispatch = useDispatch();
@@ -110,14 +112,16 @@ const Checkout = () => {
         }
       })
 
-      const res = await CartService.updateShipping({
+      const res:any = await CartService.updateShipping({
         deliveryAddress: {
+          checkoutId:localStorage.getItem("checkoutId") ?? '',
           lineItems: lineItems,
           ...deliveryAddress
         },
         shopId: shopID
       });
-      if (res.data) {
+      if (res?.updatedCart?.data) {
+        localStorage.setItem("checkoutId", res?.updatedCart?.data?.checkoutShippingAddressUpdateV2?.checkout?.id);
         toast.success("Order placed successfully");
         await getCartItems(cartID, shopID);
       }
@@ -134,21 +138,38 @@ const Checkout = () => {
   }, [isValid]);
 
   useEffect(() => {
-    if (methods.formState.dirtyFields?.Shipping && Object.keys(methods.formState.dirtyFields?.Shipping).length >= 5) {
-      const prepareShippingData: IShippingAddress = {
-        cartId: cartID,
-        "shippingAddress": {
-          address1,
-          city,
-          province,
-          country,
-          zip
-        },
-        "email": email
-      }
-      updateShipping(prepareShippingData)
+    const {
+      Shipping: { address1, city, province, country, zip, first_name, last_name },
+      CustomerData: { email },
+    } = methods.getValues();
+  
+    const areAllFieldsFilled =
+      [address1, city, province, country, zip, first_name, last_name, email].every(
+        (field) => field?.length > 0
+      );
+  
+    if (areAllFieldsFilled) {
+      const debounceTimeout = setTimeout(() => {
+        const prepareShippingData: IShippingAddress = {
+          cartId: cartID,
+          shippingAddress: {
+            address1,
+            city,
+            province,
+            country,
+            zip,
+            firstName: first_name,
+            lastName: last_name,
+          },
+          email,
+        };
+        updateShipping(prepareShippingData);
+      }, 500);
+  
+      return () => clearTimeout(debounceTimeout);
     }
-  }, [address1, city, country, province, zip])
+  }, [ address1, city, province, country, zip, email]);
+  
 
   return (
     <div id="font-family">

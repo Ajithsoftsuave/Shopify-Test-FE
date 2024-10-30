@@ -338,9 +338,12 @@ export interface IShippingAddressUpdate {
   province: string;
   country: string;
   zip: string;
+  firstName: string;
+  lastName: string;
 }
 export interface IShippingAddress {
   cartId: string;
+  checkoutId?:string;
   shippingAddress: IShippingAddressUpdate;
   email: string;
   lineItems?: {
@@ -350,6 +353,6 @@ export interface IShippingAddress {
 }
 
 export interface IShippingAddressPayload {
-  deliveryAddress:IShippingAddress,
-  shopId :string
+  deliveryAddress: IShippingAddress,
+  shopId: string
 }
